@@ -35,7 +35,7 @@ func handleTLSConnection(c net.Conn) {
 
 // SetupTLSForwarder starts a TLS serever on port 443
 func SetupTLSForwarder() {
-	l, err := net.Listen("tcp", listenAddress+":443")
+	l, err := net.Listen("tcp", ":443")
 	if err != nil {
 		log.Fatalln("cannot start the tls forwarder listener:", err)
 	}

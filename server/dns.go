@@ -8,7 +8,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-var thisIP = net.ParseIP("192.168.1.100")
+var thisIP net.IP
 
 type dnsHandler struct{}
 
@@ -28,8 +28,12 @@ func (dnsHandler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 	w.WriteMsg(&msg)
 }
 
-func SetupDNSServer() {
-	srv := dns.Server{Addr: listenAddress + ":53", Net: "udp"}
+func SetupDNSServer(thisIPString string) {
+	thisIP = net.ParseIP(thisIPString)
+	if thisIP == nil {
+		log.Fatalln("Cannot parse the current IP")
+	}
+	srv := dns.Server{Addr: ":53", Net: "udp"}
 	srv.Handler = dnsHandler{}
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("Failed to set udp listener %s\n", err.Error())

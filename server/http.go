@@ -50,7 +50,7 @@ func handleHTTPConnection(c net.Conn) {
 }
 
 func SetupHTTPForwarder() {
-	l, err := net.Listen("tcp", listenAddress+":80")
+	l, err := net.Listen("tcp", ":80")
 	if err != nil {
 		log.Fatalln("cannot start the tcp forwarder listener:", err)
 	}
